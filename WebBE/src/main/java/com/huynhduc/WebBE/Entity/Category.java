@@ -1,9 +1,18 @@
 package com.huynhduc.WebBE.Entity;
 
-import java.util.List;
+import jakarta.persistence.*;
+import lombok.Data;
 
+import java.util.List;
+@Entity
+@Data
+@Table(name = "Category")
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
     private int ID;
+    @Column(name = "Name", nullable = false)
     private String Name;
-    private List<Product> ListProduct;
+
 }
