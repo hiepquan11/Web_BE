@@ -2,9 +2,10 @@ package com.huynhduc.WebBE.Dao;
 
 import com.huynhduc.WebBE.Entity.OrderDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@RepositoryRestResource(path = "orderdetail")
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
 
 }

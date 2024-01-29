@@ -10,8 +10,9 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
+    @Column(name = "ID")
     private int ID;
+
     @Column(name = "Name", nullable = false)
     private String Name;
 
