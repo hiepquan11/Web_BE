@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -11,16 +12,18 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "UserID")
     private int ID;
-    @Column(name = "Username", nullable = false)
-    private String Username;
+    @Column(name = "UserName", nullable = false)
+    private String UserName;
     @Column(name = "Password", nullable = false)
     private String Password;
-    @Column(name = "Fullname", nullable = false)
+    @Column(name = "ActivationCode")
+    private String ActivationCode;
+    @Column(name = "FullName", nullable = false)
     private String Fullname;
-    @Column(name = "Phonenumber", nullable = false)
-    private String Phonenumber;
+    @Column(name = "PhoneNumber", nullable = false)
+    private String PhoneNumber;
     @Column(name = "Address", nullable = false)
     private String Address;
     @Column(name = "Created_at")
@@ -31,4 +34,20 @@ public class User {
     private Date Updated_at;
     @Column(name = "Enabled")
     private int Enabled;
+    @OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = {
+            CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
+    })
+    private List<Review> ListReview;
+    @OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FavouriteProduct> ListFavouriteProduct;
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "User_Role", joinColumns = @JoinColumn(name = "UserID"), inverseJoinColumns = @JoinColumn(name = "RoleID"))
+    private List<Role> ListRole;
+    @OneToMany(mappedBy = "User",fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Order> ListOrder;
+    @OneToMany(mappedBy = "User",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cart> listCartItems;
+
+    @OneToMany(mappedBy = "User",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Feedback> listFeedbacks;
 }

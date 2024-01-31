@@ -14,13 +14,8 @@ import java.util.Map;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int ID;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.ALL, CascadeType.MERGE
-    })
-    @JoinColumn(name = "CategoryID", nullable = false)
-    private Category CategoryID;
+    @Column(name = "ProductID")
+    private int ProductID;
     @Column(name = "Name", length = 100, nullable = false)
     private String Name;
     @Column(name = "Quantity", nullable = false)
@@ -37,6 +32,22 @@ public class Product {
     @Column(name = "Updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date Updated_at;
-    @Column(name = "Deleted")
-    private int Deleted;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.REFRESH, CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.DETACH
+    })
+    @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "ProductID"), inverseJoinColumns = @JoinColumn(name = "CategoryID"))
+    private List<Category> ListCategory;
+
+    @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Image> ListImage;
+    @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.REFRESH
+    })
+    private List<OrderDetail> ListOrderDetail;
+    @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<FavouriteProduct> ListFavouriteProduct;
+    @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Cart> ListCart;
 }

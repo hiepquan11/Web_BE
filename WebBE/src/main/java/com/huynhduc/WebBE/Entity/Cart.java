@@ -13,13 +13,10 @@ public class Cart {
     private int ID;
     @Column(name = "Quantity", nullable = false)
     private int Quantity;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.ALL, CascadeType.MERGE
-    })
+    @ManyToOne
     @JoinColumn(name = "ProductID")
-    private Product ProductID;
-    @Column(name = "Price")
-    private double Price;
-    @Column(name = "TotalMoney")
-    private double TotalMoney;
+    private Product Product;
+    @ManyToOne
+    @JoinColumn(name = "UserID", nullable = false)
+    private User User;
 }

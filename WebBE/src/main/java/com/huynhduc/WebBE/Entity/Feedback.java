@@ -12,25 +12,21 @@ public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int ID;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.ALL, CascadeType.MERGE
-    })
-    @JoinColumn(name = "UserID")
-    private User UserID;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.ALL, CascadeType.MERGE
-    })
-    @JoinColumn(name = "ProductID")
-    private Product ProductID;
-    @Column(name = "Rating")
-    private int Rating;
-    @Column(name = "Comment", columnDefinition = "text")
+    private int FeedBackID;
+    @Column(name = "Title")
+    private String Title;
+    @Column(name = "Comment", columnDefinition = "LONGTEXT")
     private String Comment;
-    @Column(name = "Created_at")
+    @Column(name = "Created_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date Created_at;
-    @Column(name = "Updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date Updated_at;
+    private Date Created_date;
+    @Column(name = "isRead")
+    private boolean isRead;
+    @ManyToOne(cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH
+    })
+    @JoinColumn(name = "UserID",nullable = false)
+    private User User;
+
 }

@@ -2,7 +2,9 @@ package com.huynhduc.WebBE.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.context.annotation.EnableMBeanExport;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @Entity
@@ -11,20 +13,23 @@ import java.util.List;
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int ID;
+    @Column(name = "OrderDetailID")
+    private int OrderDetailID;
+    @Column(name = "Quantity")
+    private int Quantity;
+    @Column(name = "Price")
+    private double Price;
+    @Column(name = "isReview")
+    private boolean isReview;
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "ProductID", nullable = false)
+    private Product Product;
     @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.ALL, CascadeType.MERGE
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH
     })
     @JoinColumn(name = "OrderID", nullable = false)
-    private Order OrderID;
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.DETACH, CascadeType.ALL, CascadeType.MERGE
-    })
-    @JoinColumn(name = "ProductID", nullable = false)
-    private Product ProductID;
-    @Column(name = "Price", nullable = false)
-    private double price;
-    @Column(name = "Quantity", nullable = false)
-    private int Quantity;
+    private Order Order;
+
+
 }
