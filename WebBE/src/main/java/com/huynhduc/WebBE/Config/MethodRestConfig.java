@@ -1,6 +1,8 @@
 package com.huynhduc.WebBE.Config;
 
 import com.huynhduc.WebBE.Entity.Category;
+import jakarta.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -9,11 +11,17 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
 public class MethodRestConfig implements RepositoryRestConfigurer {
-    private String url = "http://localhost:8080";
+    private String url = "http://localhost:3000";
+
+    @Autowired
+    private EntityManager entityManager;
 
     // config disable methods
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
+
+        // Cors configuration
+        cors.addMapping("/**").allowedOrigins(url).allowedMethods("GET","POST","PUSH","DELETE");
 //        HttpMethod[] BlocksMethod = {
 //                HttpMethod.POST,
 //                HttpMethod.DELETE,
