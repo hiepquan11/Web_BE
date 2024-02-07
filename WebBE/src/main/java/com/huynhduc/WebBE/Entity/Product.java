@@ -1,5 +1,6 @@
 package com.huynhduc.WebBE.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Generated;
@@ -41,6 +42,7 @@ public class Product {
 
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> ListImage;
+
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH
@@ -48,6 +50,7 @@ public class Product {
     private List<OrderDetail> ListOrderDetail;
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<FavouriteProduct> ListFavouriteProduct;
+
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cart> ListCart;
 }

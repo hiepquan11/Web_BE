@@ -36,7 +36,7 @@ public class MethodRestConfig implements RepositoryRestConfigurer {
     private void DisableHttpsMethod(Class c, RepositoryRestConfiguration config, HttpMethod[] methods){
         config.getExposureConfiguration()
                 .forDomainType(c)
-                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(methods)))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable());
+                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(methods))
+                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(methods));
     }
 }
