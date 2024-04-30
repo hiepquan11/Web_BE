@@ -26,7 +26,7 @@ public class Feedback {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
-    @JoinColumn(name = "UserID",nullable = false)
+    @JoinColumn(name = "UserID",nullable = false        )
     private User User;
 
 }
