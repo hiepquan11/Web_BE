@@ -1,9 +1,12 @@
 package com.huynhduc.WebBE.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +14,8 @@ import java.util.Map;
 
 @Entity
 @Data
+@Getter
+@Setter
 @Table(name = "Product")
 public class Product {
     @Id
@@ -18,7 +23,7 @@ public class Product {
     @Column(name = "ProductID")
     private int ProductID;
     @Column(name = "Name", length = 100, nullable = false)
-    private String Name;
+    private String name;
     @Column(name = "Quantity", nullable = false)
     private int Quantity;
     @Column(name = "Price", nullable = false)
@@ -33,10 +38,12 @@ public class Product {
     @Column(name = "Updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date Updated_at;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.REFRESH, CascadeType.PERSIST,
             CascadeType.MERGE, CascadeType.DETACH
     })
+    @JsonIgnore
     @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "ProductID"), inverseJoinColumns = @JoinColumn(name = "CategoryID"))
     private List<Category> ListCategory;
 

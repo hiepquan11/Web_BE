@@ -15,25 +15,27 @@ public class User {
     @Column(name = "UserID")
     private int ID;
     @Column(name = "UserName", nullable = false)
-    private String UserName;
+    private String userName;
+    @Column(name = "Email", nullable = false)
+    private String email;
     @Column(name = "Password", nullable = false)
-    private String Password;
+    private String password;
     @Column(name = "ActivationCode")
-    private String ActivationCode;
+    private String activationCode;
     @Column(name = "FullName", nullable = false)
-    private String Fullname;
+    private String fullName;
     @Column(name = "PhoneNumber", nullable = false)
-    private String PhoneNumber;
+    private String phoneNumber;
     @Column(name = "Address", nullable = false)
-    private String Address;
+    private String address;
     @Column(name = "Created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date Created_at;
+    private Date created_at;
     @Column(name = "Updated_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date Updated_at;
+    private Date updated_at;
     @Column(name = "Enabled")
-    private int Enabled;
+    private Integer enabled;
     @OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
     })
