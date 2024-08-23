@@ -37,7 +37,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated_at;
     @Column(name = "Enabled")
-    private Integer enabled;
+    private Boolean enabled;
     @OneToMany(mappedBy = "User", fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH
     })

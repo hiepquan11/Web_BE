@@ -5,6 +5,7 @@ import com.huynhduc.WebBE.Dao.UserRepository;
 import com.huynhduc.WebBE.Entity.Notify;
 import com.huynhduc.WebBE.Entity.Role;
 import com.huynhduc.WebBE.Entity.User;
+import com.huynhduc.WebBE.Service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,9 @@ public class UserServiceIpml implements UserService{
     private UserRepository userRepository;
 
     private RoleRepository roleRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -47,6 +52,13 @@ public class UserServiceIpml implements UserService{
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
+        // activate
+        user.setActivationCode(createActivationCode());
+        user.setEnabled(false);
+
+        // send email
+        sendEmail(user.getEmail());
+
         // save user in database
         User newUser = userRepository.save(user);
         return ResponseEntity.ok("Register Successful");
@@ -67,5 +79,15 @@ public class UserServiceIpml implements UserService{
     }
     private Collection<? extends GrantedAuthority> rolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+    }
+
+    public String createActivationCode(){
+        return UUID.randomUUID().toString();
+    }
+
+    public void sendEmail(String email){
+        String subject = "Kích hoạt tài khoản";
+        String text = "Sử dụng mã này để kích hoạt tài khoản";
+        emailService.SendMessage("tahuynhduc09102000@gmail.com",email,subject,text);
     }
 }
