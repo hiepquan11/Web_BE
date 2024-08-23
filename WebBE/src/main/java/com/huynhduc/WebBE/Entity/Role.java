@@ -12,9 +12,9 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RoleID")
-    private int RoleID;
+    private int roleID;
     @Column(name = "RoleName", nullable = false)
-    private String RoleName;
+    private String roleName;
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
