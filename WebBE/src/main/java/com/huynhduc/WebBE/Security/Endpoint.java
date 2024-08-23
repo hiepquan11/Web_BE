@@ -5,6 +5,18 @@ public class Endpoint {
             "/product",
             "/product/**",
             "/image",
-            "image/**"
+            "/image/**",
+            "/user/search/existsByUserName",
+            "/user/search/existsByEmail",
+    };
+
+    public static final String[] PUBLIC_POST_ENDPOINTS = {
+            "/userAccount/register",
+
+    };
+
+    public static final String[] ADMIN_GET_ENDPOINTS = {
+            "/user",
+            "/user/**"
     };
 }

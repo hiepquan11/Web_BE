@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
+
+    @Bean
     public BCryptPasswordEncoder passwordEncoder (){
         return new BCryptPasswordEncoder();
     }
@@ -30,12 +32,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                 configurer->configurer
-                        .requestMatchers(HttpMethod.GET,  "/product").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/product/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/image").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/image/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,  "/user").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST,  "/userAccount/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, Endpoint.PUBLIC_GET_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.POST, Endpoint.PUBLIC_POST_ENDPOINTS).permitAll()
+                        .requestMatchers(HttpMethod.GET, Endpoint.ADMIN_GET_ENDPOINTS).hasAuthority("ADMIN")
         );
         http.httpBasic(Customizer.withDefaults());
         http.csrf(csrf->csrf.disable());

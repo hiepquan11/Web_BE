@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -21,6 +22,9 @@ public class UserServiceIpml implements UserService{
     private UserRepository userRepository;
 
     private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceIpml(UserRepository userRepository, RoleRepository roleRepository) {
@@ -38,6 +42,11 @@ public class UserServiceIpml implements UserService{
         if(userRepository.existsByEmail(user.getEmail())){
             return ResponseEntity.badRequest().body(new Notify("Email is exist"));
         }
+
+        // encrypt password
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
         // save user in database
         User newUser = userRepository.save(user);
         return ResponseEntity.ok("Register Successful");
