@@ -13,6 +13,7 @@ public class Endpoint {
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/userAccount/register",
+            "/userAccount/login"
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
