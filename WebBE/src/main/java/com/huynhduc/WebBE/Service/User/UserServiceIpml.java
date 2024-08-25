@@ -6,6 +6,7 @@ import com.huynhduc.WebBE.Entity.Notify;
 import com.huynhduc.WebBE.Entity.Role;
 import com.huynhduc.WebBE.Entity.User;
 import com.huynhduc.WebBE.Service.EmailService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,7 +58,7 @@ public class UserServiceIpml implements UserService{
         user.setEnabled(false);
 
         // send email
-        sendEmail(user.getEmail());
+        sendEmail(user.getEmail(), user.getActivationCode());
 
         // save user in database
         User newUser = userRepository.save(user);
@@ -85,9 +86,31 @@ public class UserServiceIpml implements UserService{
         return UUID.randomUUID().toString();
     }
 
-    public void sendEmail(String email){
+    public void sendEmail(String email, String ActivationCode){
         String subject = "Kích hoạt tài khoản";
+        String url = "http://localhost:3000/activate/"+email+ "/"+ActivationCode;
         String text = "Sử dụng mã này để kích hoạt tài khoản";
+        text += "<br/> <a href="+url+">"+url+"</a>";
         emailService.SendMessage("tahuynhduc09102000@gmail.com",email,subject,text);
+    }
+
+    public ResponseEntity<?> activationAccount(String email, String activationCode){
+        User user = userRepository.findByEmail(email);
+
+        if(user == null) {
+            return ResponseEntity.badRequest().body(new Notify("Người dùng không tồn tại"));
+        }
+
+        if(user.getEnabled()){
+            return ResponseEntity.badRequest().body(new Notify("Người dùng đã được kích hoạt"));
+        }
+
+        if(activationCode.equals(user.getActivationCode())){
+            user.setEnabled(true);
+            userRepository.save(user);
+            return ResponseEntity.ok(new Notify("Kích hoạt tài khoản thành công"));
+        } else {
+            return ResponseEntity.badRequest().body(new Notify("Mã kích hoạt không chính xác"));
+        }
     }
 }

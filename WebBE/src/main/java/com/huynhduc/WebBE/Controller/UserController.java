@@ -13,10 +13,15 @@ public class UserController {
     @Autowired
     private UserServiceIpml userServiceIpml;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
     public ResponseEntity<?> register(@Validated @RequestBody User user){
         ResponseEntity<?> response = userServiceIpml.register(user);
+        return response;
+    }
+
+    @GetMapping("/activate")
+    public ResponseEntity<?> activationAccount(@RequestParam String email, @RequestParam String activationCode){
+        ResponseEntity<?> response = userServiceIpml.activationAccount(email, activationCode);
         return response;
     }
 }
