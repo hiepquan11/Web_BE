@@ -5,8 +5,7 @@ import com.huynhduc.WebBE.Dao.UserRepository;
 import com.huynhduc.WebBE.Entity.Notify;
 import com.huynhduc.WebBE.Entity.Role;
 import com.huynhduc.WebBE.Entity.User;
-import com.huynhduc.WebBE.Service.EmailService;
-import org.apache.coyote.Response;
+import com.huynhduc.WebBE.Service.Email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +77,7 @@ public class UserServiceIpml implements UserService{
         }
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), rolesToAuthorities(user.getListRole()));
     }
+
     private Collection<? extends GrantedAuthority> rolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
     }

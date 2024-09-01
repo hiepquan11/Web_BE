@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-@Service
 public class JwtService {
     public static final String SECRET_KEY = "MTIzNDU2NDU5OThEMzIxM0F6eGMzNTE2NTQzMjEzMjE2NTQ5OHEzMTNhMnMxZDMyMnp4M2MyMQ==";
 
