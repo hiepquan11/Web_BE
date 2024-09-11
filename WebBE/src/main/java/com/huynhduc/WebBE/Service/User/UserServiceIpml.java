@@ -7,6 +7,7 @@ import com.huynhduc.WebBE.Entity.Role;
 import com.huynhduc.WebBE.Entity.User;
 import com.huynhduc.WebBE.Service.Email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,21 +22,20 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceIpml implements UserService{
 
+    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
     private EmailService emailService;
 
     @Autowired
+    @Lazy
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserServiceIpml(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
+
 
     @Override
     public ResponseEntity<?> register(User user) {

@@ -19,10 +19,12 @@ import java.util.function.Function;
 public class JwtService {
     public static final String SECRET_KEY = "MTIzNDU2NDU5OThEMzIxM0F6eGMzNTE2NTQzMjEzMjE2NTQ5OHEzMTNhMnMxZDMyMnp4M2MyMQ==";
 
+
+
     // generate jwt
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
-        //claims.put("isAdmin", userName);
+        claims.put("isAdmin", true);
         return createToken(claims, userName);
     }
 
@@ -32,7 +34,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 30*60*1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 60*60*1000))
                 .signWith(SignatureAlgorithm.HS256,getSigneKey())
                 .compact();
     }
@@ -73,6 +75,6 @@ public class JwtService {
     // check token is valid
     public Boolean validateToken(String token, UserDetails userDetails){
         final String userName = extractUsername(token);
-        return (userName.equals(userDetails.getUsername()) && isTokenExpired(token));
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

@@ -1,12 +1,11 @@
 package com.huynhduc.WebBE.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +15,8 @@ import java.util.Map;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Product")
 public class Product {
     @Id
@@ -28,7 +29,7 @@ public class Product {
     private int Quantity;
     @Column(name = "Price", nullable = false)
     private double Price;
-    @Column(name = "Discount", nullable = false)
+    @Column(name = "Discount")
     private double Discount;
     @Column(name = "Description", columnDefinition = "text")
     private String Description;
@@ -43,7 +44,7 @@ public class Product {
             CascadeType.REFRESH, CascadeType.PERSIST,
             CascadeType.MERGE, CascadeType.DETACH
     })
-    @JsonIgnore
+    @JsonIgnoreProperties("listProduct")
     @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "ProductID"), inverseJoinColumns = @JoinColumn(name = "CategoryID"))
     private List<Category> ListCategory;
 

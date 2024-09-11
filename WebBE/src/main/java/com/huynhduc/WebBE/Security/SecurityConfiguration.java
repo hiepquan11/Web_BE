@@ -15,11 +15,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfiguration {
 
-
+    @Autowired
     private JwtFilter jwtFilter;
 
     @Bean
@@ -28,7 +31,6 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    @Autowired
     public DaoAuthenticationProvider authenticationProvider (UserService userService){
         DaoAuthenticationProvider dap = new DaoAuthenticationProvider();
         dap.setUserDetailsService(userService);
@@ -43,7 +45,18 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, Endpoint.PUBLIC_GET_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.POST, Endpoint.PUBLIC_POST_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, Endpoint.ADMIN_GET_ENDPOINTS).hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, Endpoint.ADMIN_POST_ENDPOINTS).hasAuthority("ADMIN")
         );
+        http.cors(cors -> {
+            cors.configurationSource(request -> {
+                CorsConfiguration corsConfig = new CorsConfiguration();
+                corsConfig.addAllowedOrigin("*");
+                corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+                corsConfig.addAllowedHeader("*");
+                return corsConfig;
+            });
+        });
+
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.httpBasic(Customizer.withDefaults());

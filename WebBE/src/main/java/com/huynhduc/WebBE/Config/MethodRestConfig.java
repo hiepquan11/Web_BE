@@ -25,7 +25,7 @@ public class MethodRestConfig implements RepositoryRestConfigurer {
         config.exposeIdsFor(entityManager.getMetamodel().getEntities().stream().map(Type::getJavaType).toArray(Class[]::new));
 
         // Cors configuration
-        cors.addMapping("/**").allowedOrigins(url).allowedMethods("GET","POST","PUT","DELETE");
+        //cors.addMapping("/**").allowedOrigins(url).allowedMethods("GET","POST","PUT","DELETE");
 //        HttpMethod[] BlocksMethod = {
 //                HttpMethod.POST,
 //                HttpMethod.DELETE,
