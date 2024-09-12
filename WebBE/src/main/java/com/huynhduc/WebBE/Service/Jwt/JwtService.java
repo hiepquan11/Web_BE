@@ -1,10 +1,14 @@
 package com.huynhduc.WebBE.Service.Jwt;
 
+import com.huynhduc.WebBE.Entity.Role;
+import com.huynhduc.WebBE.Entity.User;
+import com.huynhduc.WebBE.Service.User.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -19,12 +23,27 @@ import java.util.function.Function;
 public class JwtService {
     public static final String SECRET_KEY = "MTIzNDU2NDU5OThEMzIxM0F6eGMzNTE2NTQzMjEzMjE2NTQ5OHEzMTNhMnMxZDMyMnp4M2MyMQ==";
 
-
+    @Autowired
+    private UserService userService;
 
     // generate jwt
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("isAdmin", true);
+        User user = userService.findByUsername(userName);
+        if(user != null && user.getListRole().size() > 0) {
+            for(Role role : user.getListRole()) {
+                if(role.getRoleName().equals("ADMIN")) {
+                    claims.put("role","ADMIN");
+                    break;
+                }
+                if(role.getRoleName().equals("CUSTOMER")) {
+                    claims.put("role","CUSTOMER");
+                    break;
+                }
+            }
+        }
+        claims.put("id", user.getID());
+        claims.put("enabled", user.getEnabled());
         return createToken(claims, userName);
     }
 
