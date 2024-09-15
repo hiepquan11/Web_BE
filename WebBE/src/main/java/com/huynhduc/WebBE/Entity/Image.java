@@ -14,11 +14,11 @@ public class Image {
     @Column(name = "ImageID")
     private int ImageID;
 
-    @Column(name = "ImageName", nullable = false)
+    @Column(name = "ImageName")
     private String Name;
     
     @Column(name = "ImageURL", nullable = false)
-    private String ImageURL;
+    private String imageURL;
 
     @Column(name = "ImageData", columnDefinition = "LONGTEXT")
     @Lob
@@ -28,7 +28,7 @@ public class Image {
             CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.REFRESH, CascadeType.MERGE
     })
-    @JoinColumn(name = "ProductID", nullable = false)
+    @JoinColumn(name = "ProductID")
     @JsonIgnore
     private Product Product;
 }

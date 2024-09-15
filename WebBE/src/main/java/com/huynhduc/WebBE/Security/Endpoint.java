@@ -20,6 +20,7 @@ public class Endpoint {
             "/userAccount/register",
             "/userAccount/login",
             "/api/upload",
+            "/api/product/addProduct"
     };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
