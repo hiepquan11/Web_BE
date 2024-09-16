@@ -19,7 +19,7 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
+    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile[] file, @RequestParam("name") String name) {
         ResponseEntity<?> image = imageService.uploadImage(file, name);
 
         if(image != null) {

@@ -1,7 +1,6 @@
 package com.huynhduc.WebBE.Controller;
 
-import com.huynhduc.WebBE.Entity.Image;
-import com.huynhduc.WebBE.Entity.Notify;
+
 import com.huynhduc.WebBE.Entity.Product;
 import com.huynhduc.WebBE.Service.Image.ImageServiceIpml;
 import com.huynhduc.WebBE.Service.Product.ProductService;
@@ -12,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")

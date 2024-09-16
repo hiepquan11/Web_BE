@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Map;
+
 @Configuration
 public class CloudinaryConfig {
     @Value("${cloudinary.cloud-name}")
@@ -17,10 +19,11 @@ public class CloudinaryConfig {
 
     @Bean
     public Cloudinary cloudinary(){
-        return new Cloudinary(ObjectUtils.asMap(
+        Map<String, String> config = ObjectUtils.asMap(
                 "cloud_name", cloudName,
                 "api_key", apiKey,
                 "api_secret", apiSecretKey
-        ));
+        );
+        return new Cloudinary(config);
     }
 }
