@@ -22,23 +22,23 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ProductID")
-    private int ProductID;
+    private int productID;
     @Column(name = "Name", length = 100, nullable = false)
     private String name;
     @Column(name = "Quantity", nullable = false)
-    private int Quantity;
+    private int quantity;
     @Column(name = "Price", nullable = false)
-    private double Price;
+    private double price;
     @Column(name = "Discount")
-    private double Discount;
+    private double discount;
     @Column(name = "Description", columnDefinition = "text")
-    private String Description;
+    private String description;
     @Column(name = "Created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date Created_at;
+    private Date created_at;
     @Column(name = "Updated_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date Updated_at;
+    private Date updated_at;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {
             CascadeType.REFRESH, CascadeType.PERSIST,
@@ -46,10 +46,10 @@ public class Product {
     })
     @JsonIgnoreProperties("listProduct")
     @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "ProductID"), inverseJoinColumns = @JoinColumn(name = "CategoryID"))
-    private List<Category> ListCategory;
+    private List<Category> listCategory;
 
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Image> ListImage;
+    private List<Image> listImage;
 
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,CascadeType.DETACH,
@@ -57,8 +57,8 @@ public class Product {
     })
     private List<OrderDetail> ListOrderDetail;
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<FavouriteProduct> ListFavouriteProduct;
+    private List<FavouriteProduct> listFavouriteProduct;
 
     @OneToMany(mappedBy = "Product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Cart> ListCart;
+    private List<Cart> listCart;
 }

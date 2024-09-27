@@ -1,6 +1,10 @@
 package com.huynhduc.WebBE.Controller;
 
 
+import com.huynhduc.WebBE.Dao.ProductRepository;
+import com.huynhduc.WebBE.Entity.Category;
+import com.huynhduc.WebBE.Entity.Image;
+import com.huynhduc.WebBE.Entity.Notify;
 import com.huynhduc.WebBE.Entity.Product;
 import com.huynhduc.WebBE.Service.Image.ImageServiceIpml;
 import com.huynhduc.WebBE.Service.Product.ProductService;
@@ -11,6 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api")
@@ -20,6 +28,8 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private ImageServiceIpml imageServiceIpml;
+    @Autowired
+    private ProductRepository productRepository;
 
     @PostMapping("/addProduct")
     public ResponseEntity<?> addProduct(@Validated @RequestBody Product product){
@@ -28,5 +38,24 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fail to save");
         }
         return response;
+    }
+
+    @PutMapping("/updateProduct")
+    public ResponseEntity<?> updateProduct(@Validated @RequestParam("productID") int productID, @RequestBody Product product) {
+        Optional<Product> productOptional = productRepository.findById(productID);
+        if(!productOptional.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+
+        Product existingProduct = productOptional.get();
+        existingProduct.setName(product.getName());
+        existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setDescription(product.getDescription());
+        ResponseEntity<?> response = productService.updateProduct(existingProduct);
+       if(response == null){
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fail to update");
+       }
+       return response;
     }
 }

@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceIpml implements ProductService{
@@ -57,6 +57,7 @@ public class ProductServiceIpml implements ProductService{
                 image.setProduct(newProduct);
                 image.setName(newProduct.getName());
                 image.setImageURL(arrImage.getImageURL());
+                image.setProduct(product);
                 imageRepository.save(image);
             }
         } catch(Exception e){
@@ -67,8 +68,15 @@ public class ProductServiceIpml implements ProductService{
     }
 
     @Override
-    @Transactional
     public ResponseEntity<?> updateProduct(Product product) {
-        return null;
+        if(product == null){
+            return ResponseEntity.badRequest().body(new Notify("Product is null"));
+        }
+        try {
+            productRepository.save(product);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(product);
     }
 }

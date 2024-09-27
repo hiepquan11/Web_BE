@@ -14,24 +14,24 @@ public class Endpoint {
             "/user/search/existsByUserName",
             "/user/search/existsByEmail",
             "/userAccount/activate",
-
-
+            "/api/product/updateProduct"
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/userAccount/register",
             "/userAccount/login",
     };
+    public static final String[] PUBLIC_PUT_ENDPOINTS = {
+            "/api/updateProduct",
+    };
 
     public static final String[] ADMIN_GET_ENDPOINTS = {
             "/user",
             "/user/**",
-
     };
 
     public static final String[] ADMIN_POST_ENDPOINTS = {
             "/api/addProduct",
             "/api/upload"
-
     };
  }
