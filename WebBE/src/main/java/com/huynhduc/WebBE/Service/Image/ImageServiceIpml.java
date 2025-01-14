@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,5 +46,15 @@ public class ImageServiceIpml implements ImageService{
             e.printStackTrace();
             return ResponseEntity.status(500).body(new Notify("Error to update product"));
         }
+    }
+
+    @Override
+    public ResponseEntity<?> updateImage(int imageID) {
+        try {
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

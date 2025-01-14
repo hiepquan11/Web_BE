@@ -14,7 +14,8 @@ public class Endpoint {
             "/user/search/existsByUserName",
             "/user/search/existsByEmail",
             "/userAccount/activate",
-            "/api/product/updateProduct"
+            "/api/product/updateProduct",
+            "/api/product"
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {

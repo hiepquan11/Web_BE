@@ -12,17 +12,17 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ImageID")
-    private int ImageID;
+    private int imageID;
 
     @Column(name = "ImageName")
-    private String Name;
+    private String name;
     
     @Column(name = "ImageURL", nullable = false)
     private String imageURL;
 
     @Column(name = "ImageData", columnDefinition = "LONGTEXT")
     @Lob
-    private String ImageData;
+    private String imageData;
 
     @ManyToOne(cascade = {
             CascadeType.PERSIST, CascadeType.DETACH,
@@ -30,5 +30,5 @@ public class Image {
     })
     @JoinColumn(name = "ProductID")
     @JsonIgnore
-    private Product Product;
+    private Product product;
 }

@@ -1,5 +1,6 @@
 package com.huynhduc.WebBE.Service.Product;
 
+import com.huynhduc.WebBE.DTO.Response.ProductResponse;
 import com.huynhduc.WebBE.Dao.CategoryRepository;
 import com.huynhduc.WebBE.Dao.ImageRepository;
 import com.huynhduc.WebBE.Dao.ProductRepository;
@@ -9,13 +10,16 @@ import com.huynhduc.WebBE.Entity.Notify;
 import com.huynhduc.WebBE.Entity.Product;
 import com.huynhduc.WebBE.Service.Image.ImageService;
 import jakarta.transaction.Transactional;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceIpml implements ProductService{
@@ -73,10 +77,33 @@ public class ProductServiceIpml implements ProductService{
             return ResponseEntity.badRequest().body(new Notify("Product is null"));
         }
         try {
+            for(Category arrCategory : product.getListCategory()){
+                List<Category> category = categoryRepository.findByCategoryID(arrCategory.getCategoryID());
+                product.setListCategory(category);
+            }
+
+            for(Image arrImage : product.getListImage()){
+                List<Image> image = imageRepository.findByImageID(arrImage.getImageID());
+                product.setListImage(image);
+            }
             productRepository.save(product);
         } catch (Exception e){
             e.printStackTrace();
         }
         return ResponseEntity.ok(product);
+    }
+
+    @Override
+    public ResponseEntity<Object> getInfoProduct() {
+        List<Product> products = productRepository.findAllWithImages();
+        if(products.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Notify("Product not found"));
+        }
+        List<ProductResponse> productResponses = products.stream()
+                .map(product -> new ProductResponse(product.getProductID(), product.getName(),
+                                        product.getDescription(), product.getPrice(),
+                                        product.getListCategory(), product.getListImage()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(productResponses);
     }
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @RepositoryRestResource(path = "image")
 public interface ImageRepository extends JpaRepository<Image, Integer> {
     public List<Image> findByImageURL(String imageUrl);
+    public List<Image> findByImageID(int imageId);
 }

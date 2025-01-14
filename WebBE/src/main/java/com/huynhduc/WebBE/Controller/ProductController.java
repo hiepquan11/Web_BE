@@ -31,6 +31,10 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @GetMapping("/product")
+    public ResponseEntity<Object> getAllProduct(){
+        return productService.getInfoProduct();
+    }
     @PostMapping("/addProduct")
     public ResponseEntity<?> addProduct(@Validated @RequestBody Product product){
         ResponseEntity<?> response = productService.saveProduct(product);
@@ -52,6 +56,8 @@ public class ProductController {
         existingProduct.setQuantity(product.getQuantity());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setDescription(product.getDescription());
+        existingProduct.setListImage(product.getListImage());
+        existingProduct.setListCategory(product.getListCategory());
         ResponseEntity<?> response = productService.updateProduct(existingProduct);
        if(response == null){
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fail to update");
