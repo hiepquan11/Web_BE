@@ -21,6 +21,7 @@ public class Endpoint {
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/userAccount/register",
             "/userAccount/login",
+            "/api/cart/add"
     };
     public static final String[] PUBLIC_PUT_ENDPOINTS = {
             "/api/updateProduct",

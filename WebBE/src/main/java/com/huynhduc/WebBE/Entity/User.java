@@ -49,7 +49,7 @@ public class User {
     private List<Role> ListRole;
     @OneToMany(mappedBy = "User",fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Order> ListOrder;
-    @OneToMany(mappedBy = "User",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cart> listCartItems;
 
     @OneToMany(mappedBy = "User",fetch = FetchType.LAZY, cascade = CascadeType.ALL)

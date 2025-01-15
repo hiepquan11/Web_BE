@@ -10,6 +10,8 @@ import java.util.List;
 
 @RepositoryRestResource(path = "product")
 public interface ProductRepository extends JpaRepository<Product, Integer> {
+    Product findProductByProductID(int productId);
+    boolean existsProductByProductID(int productId);
     List<Product> findByNameContaining(@RequestParam("name") String name);
 
     @Query("SELECT pd FROM Product pd JOIN FETCH pd.listImage")
