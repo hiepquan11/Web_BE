@@ -11,4 +11,5 @@ public interface ProductService {
     ResponseEntity<?> saveProduct(Product product);
     ResponseEntity<?> updateProduct(Product product);
     ResponseEntity<Object> getInfoProduct();
+    ProductResponse getProductById(int productId);
 }

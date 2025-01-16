@@ -99,11 +99,41 @@ public class ProductServiceIpml implements ProductService{
         if(products.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Notify("Product not found"));
         }
+
         List<ProductResponse> productResponses = products.stream()
-                .map(product -> new ProductResponse(product.getProductID(), product.getName(),
-                                        product.getDescription(), product.getPrice(),
-                                        product.getListCategory(), product.getListImage()))
+                .map(product -> new ProductResponse(
+                                        product.getProductID(),
+                                        product.getName(),
+                                        product.getDescription(),
+                                        product.getPrice(),
+                                        product.getListCategory().stream()
+                                                .map(category -> category.getCategoryName())
+                                                .collect(Collectors.toList()),
+                                        product.getListImage().stream()
+                                                .map(image -> image.getImageURL())
+                                                .collect(Collectors.toList())
+                ))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(productResponses);
+    }
+
+    @Override
+    public ProductResponse getProductById(int productId) {
+        Product checkProduct = productRepository.findProductByProductID(productId);
+        if(checkProduct == null){
+            throw new Error("Product not found");
+        }
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setProductId(checkProduct.getProductID());
+        productResponse.setProductPrice(checkProduct.getPrice());
+        productResponse.setProductName(checkProduct.getName());
+        productResponse.setProductDescription(checkProduct.getDescription());
+        productResponse.setProductImageUrls(checkProduct.getListImage().
+                stream()
+                .map(image -> image.getImageURL()).collect(Collectors.toList()));
+        productResponse.setCategoryNames(checkProduct.getListCategory()
+                .stream()
+                .map(category -> category.getCategoryName()).collect(Collectors.toList()));
+        return productResponse;
     }
 }

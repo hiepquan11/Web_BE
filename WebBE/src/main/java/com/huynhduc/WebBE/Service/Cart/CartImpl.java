@@ -6,6 +6,7 @@ import com.huynhduc.WebBE.DTO.Response.CartResponse;
 import com.huynhduc.WebBE.Dao.ProductRepository;
 import com.huynhduc.WebBE.Entity.Cart;
 import com.huynhduc.WebBE.Entity.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,13 +14,12 @@ import java.util.List;
 
 @Service
 public class CartImpl implements CartService {
-    private final ProductRepository productRepository;
-    private final CartController cart;
 
-    public CartImpl(ProductRepository productRepository, CartController cart) {
-        this.productRepository = productRepository;
-        this.cart = cart;
-    }
+    @Autowired
+    private  ProductRepository productRepository;
+    @Autowired
+    private  CartController cart;
+
 
     @Override
     public CartResponse addToCart(CartItem cartItem) {

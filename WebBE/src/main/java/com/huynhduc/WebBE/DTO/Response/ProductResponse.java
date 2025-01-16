@@ -16,6 +16,6 @@ public class ProductResponse {
     private String productName;
     private String productDescription;
     private double productPrice;
-    private List<Category> categories;
-    private List<Image> productImages;
+    private List<String> categoryNames;
+    private List<String> productImageUrls;
 }

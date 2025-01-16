@@ -1,6 +1,7 @@
 package com.huynhduc.WebBE.Controller;
 
 
+import com.huynhduc.WebBE.DTO.Response.ProductResponse;
 import com.huynhduc.WebBE.Dao.ProductRepository;
 import com.huynhduc.WebBE.Entity.Category;
 import com.huynhduc.WebBE.Entity.Image;
@@ -35,6 +36,12 @@ public class ProductController {
     public ResponseEntity<Object> getAllProduct(){
         return productService.getInfoProduct();
     }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable int id){
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
+
     @PostMapping("/addProduct")
     public ResponseEntity<?> addProduct(@Validated @RequestBody Product product){
         ResponseEntity<?> response = productService.saveProduct(product);
