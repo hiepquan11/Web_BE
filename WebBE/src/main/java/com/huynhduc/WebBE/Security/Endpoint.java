@@ -17,6 +17,7 @@ public class Endpoint {
             "/api/product/updateProduct",
             "/api/product",
             "api/product/**",
+            "/api/cart/**"
     };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {

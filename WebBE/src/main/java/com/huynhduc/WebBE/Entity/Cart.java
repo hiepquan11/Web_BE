@@ -17,6 +17,10 @@ public class Cart {
     private int Id;
     @Column(name = "Quantity", nullable = false)
     private int quantity;
+    @Column(name = "price", nullable = false)
+    private double price;
+    @Column(name = "totalprice", nullable = false)
+    private double totalPrice;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ProductID")
     private Product product;

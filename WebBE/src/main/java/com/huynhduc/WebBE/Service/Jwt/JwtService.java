@@ -38,6 +38,7 @@ public class JwtService {
                 }
                 if(role.getRoleName().equals("CUSTOMER")) {
                     claims.put("role","CUSTOMER");
+                    claims.put("userId", user.getID());
                     break;
                 }
             }
@@ -84,6 +85,10 @@ public class JwtService {
     // check username jwt
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public int extractUserId(String token){
+        return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
     // check token is expire

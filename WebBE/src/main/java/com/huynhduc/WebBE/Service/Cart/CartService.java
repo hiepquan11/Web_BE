@@ -8,8 +8,8 @@ import com.huynhduc.WebBE.Entity.Product;
 import java.util.List;
 
 public interface CartService {
-    CartResponse addToCart(CartItem cartItem);
+    CartResponse addToCart(CartItem cartItem, String token);
     Product removeFromCart(int productId);
     Product updateProductQuantity(int productId, int quantity);
-    List<Product> getAllProductsInCart();
+    List<CartResponse> getAllProductsInCart(String token);
 }
