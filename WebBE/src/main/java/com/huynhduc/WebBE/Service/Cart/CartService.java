@@ -10,6 +10,6 @@ import java.util.List;
 public interface CartService {
     CartResponse addToCart(CartItem cartItem, String token);
     Product removeFromCart(int productId);
-    Product updateProductQuantity(int productId, int quantity);
+    Cart updateProductQuantity(int cartId);
     List<CartResponse> getAllProductsInCart(String token);
 }

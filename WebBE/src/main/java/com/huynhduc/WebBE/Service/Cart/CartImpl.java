@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartImpl implements CartService {
@@ -46,20 +47,29 @@ public class CartImpl implements CartService {
             throw new Error("Product is not found: " + cartItem.getProductId());
         }
         Product product = productRepository.findProductByProductID(cartItem.getProductId());
-        Cart cart = new Cart();
-        cart.setProduct(product);
-        cart.setQuantity(cartItem.getQuantity());
-        cart.setPrice(product.getPrice());
-        cart.setTotalPrice(product.getPrice()*cartItem.getQuantity());
-        cart.setUser(user);
+        Cart existingItem = cartRepository.findCartByUserAndAndProduct(user, product);
+        if(existingItem != null){
+            existingItem.setQuantity(existingItem.getQuantity() + cartItem.getQuantity());
+            existingItem.setTotalPrice(existingItem.getQuantity() * product.getPrice());
+            existingItem.setPrice(product.getPrice());
 
-        cartRepository.save(cart);
+            cartRepository.save(existingItem);
+        } else {
+            Cart cart = new Cart();
+            cart.setProduct(product);
+            cart.setQuantity(cartItem.getQuantity());
+            cart.setPrice(product.getPrice());
+            cart.setTotalPrice(product.getPrice()*cartItem.getQuantity());
+            cart.setUser(user);
+
+            cartRepository.save(cart);
+        }
 
         CartResponse response = new CartResponse();
-        response.setPrice(cart.getProduct().getPrice());
-        response.setProductName(cart.getProduct().getName());
-        response.setProductQuantity(cart.getQuantity());
-        response.setTotalPrice(cart.getProduct().getPrice() * cart.getQuantity());
+        response.setPrice(product.getPrice());
+        response.setProductName(product.getName());
+        response.setProductQuantity(cartItem.getQuantity());
+        response.setTotalPrice(cartItem.getQuantity() * product.getPrice());
 
         return response;
     }
@@ -70,7 +80,7 @@ public class CartImpl implements CartService {
     }
 
     @Override
-    public Product updateProductQuantity(int productId, int quantity) {
+    public Cart updateProductQuantity(int cartId) {
         return null;
     }
 
@@ -90,6 +100,9 @@ public class CartImpl implements CartService {
             response.setProductName(cart.getProduct().getName());
             response.setProductQuantity(cart.getQuantity());
             response.setTotalPrice(cart.getProduct().getPrice() * cart.getQuantity());
+            response.setProductImageUrls(cart.getProduct().getListImage()
+                    .stream()
+                    .map(image -> image.getImageURL()).collect(Collectors.toList()));
 
             cartResponses.add(response);
         }
