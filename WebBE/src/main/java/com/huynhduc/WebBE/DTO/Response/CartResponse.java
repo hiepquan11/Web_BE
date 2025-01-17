@@ -15,4 +15,5 @@ public class CartResponse {
     private List<String> productImageUrls;
     private double price;
     private double totalPrice;
+    private int productId;
 }

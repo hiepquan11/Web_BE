@@ -70,6 +70,9 @@ public class CartImpl implements CartService {
         response.setProductName(product.getName());
         response.setProductQuantity(cartItem.getQuantity());
         response.setTotalPrice(cartItem.getQuantity() * product.getPrice());
+        response.setProductId(cartItem.getProductId());
+        response.setProductImageUrls(product.getListImage()
+                .stream().map(image -> image.getImageURL()).collect(Collectors.toList()));
 
         return response;
     }
@@ -88,7 +91,7 @@ public class CartImpl implements CartService {
         Product product = productRepository.findProductByProductID(productId);
         Cart checkExistItemInCart = cartRepository.findCartByUserAndAndProduct(user, product);
         if(checkExistItemInCart == null){
-            throw new Error("No product in your cart" + productId);
+            throw new Error("No product in your cart " + productId);
         }
         cartRepository.delete(checkExistItemInCart);
     }
