@@ -19,6 +19,9 @@ public class Endpoint {
             "api/product/**",
             "/api/cart/**"
     };
+    public static final String[] PUBLIC_DELETE_ENDPOINTS = {
+            "/api/cart/delete",
+    };
 
     public static final String[] PUBLIC_POST_ENDPOINTS = {
             "/userAccount/register",

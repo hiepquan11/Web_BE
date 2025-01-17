@@ -2,6 +2,7 @@ package com.huynhduc.WebBE.Controller;
 
 import com.huynhduc.WebBE.DTO.Response.CartItem;
 import com.huynhduc.WebBE.DTO.Response.CartResponse;
+import com.huynhduc.WebBE.DTO.Response.ItemRemove;
 import com.huynhduc.WebBE.Entity.Cart;
 import com.huynhduc.WebBE.Entity.Notify;
 import com.huynhduc.WebBE.Service.Cart.CartService;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -31,5 +33,13 @@ public class CartController {
     public ResponseEntity<Object> addToCart(@RequestBody CartItem cartItem,
                                             @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(cartService.addToCart(cartItem, token));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> removeFromCart(@RequestBody ItemRemove item,
+                                                 @RequestHeader("Authorization") String token){
+
+        cartService.removeFromCart(item.getProductId(), token);
+        return ResponseEntity.ok(Map.of("message", "Delete Successfully"));
     }
 }

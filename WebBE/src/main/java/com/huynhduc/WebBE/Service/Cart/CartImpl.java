@@ -75,8 +75,22 @@ public class CartImpl implements CartService {
     }
 
     @Override
-    public Product removeFromCart(int productId) {
-        return null;
+    public void removeFromCart(int productId, String token) {
+        token = token.substring(7);
+        String userName = jwtService.extractUsername(token);
+        if(userName == null){
+            throw new Error("Invalid token");
+        }
+        User user = userRepository.findByUserName(userName);
+        if(user == null){
+            throw new Error("Invalid user");
+        }
+        Product product = productRepository.findProductByProductID(productId);
+        Cart checkExistItemInCart = cartRepository.findCartByUserAndAndProduct(user, product);
+        if(checkExistItemInCart == null){
+            throw new Error("No product in your cart" + productId);
+        }
+        cartRepository.delete(checkExistItemInCart);
     }
 
     @Override
