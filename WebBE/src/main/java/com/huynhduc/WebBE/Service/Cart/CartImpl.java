@@ -120,6 +120,7 @@ public class CartImpl implements CartService {
             response.setProductImageUrls(cart.getProduct().getListImage()
                     .stream()
                     .map(image -> image.getImageURL()).collect(Collectors.toList()));
+            response.setProductId(cart.getProduct().getProductID());
 
             cartResponses.add(response);
         }
