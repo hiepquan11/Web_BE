@@ -71,7 +71,7 @@ public class CartImpl implements CartService {
         response.setProductQuantity(cartItem.getQuantity());
         response.setTotalPrice(cartItem.getQuantity() * product.getPrice());
         response.setProductId(cartItem.getProductId());
-        response.setProductImageUrls(product.getListImage()
+        response.setImageUrl(product.getListImage()
                 .stream().map(image -> image.getImageURL()).collect(Collectors.toList()));
 
         return response;
@@ -117,7 +117,7 @@ public class CartImpl implements CartService {
             response.setProductName(cart.getProduct().getName());
             response.setProductQuantity(cart.getQuantity());
             response.setTotalPrice(cart.getProduct().getPrice() * cart.getQuantity());
-            response.setProductImageUrls(cart.getProduct().getListImage()
+            response.setImageUrl(cart.getProduct().getListImage()
                     .stream()
                     .map(image -> image.getImageURL()).collect(Collectors.toList()));
             response.setProductId(cart.getProduct().getProductID());
